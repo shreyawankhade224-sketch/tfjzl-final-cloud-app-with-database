@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Online Courses</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark">
+  <span class="navbar-brand">Online Courses</span>
+  <span class="navbar-text">
+    {% if user.is_authenticated %}
+      Logged in as {{ user.username }}
+      &nbsp;|&nbsp; <a href="/admin/logout/">Logout</a>
+    {% else %}
+      <a href="/admin/login/?next=/onlinecourse/">Login</a>
+    {% endif %}
+  </span>
+</nav>
+<div class="container mt-4">
+  <h2>Available courses</h2>
+  <div class="card-deck">
+    {% for course in course_list %}
+      <div class="card mb-3" style="min-width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">{{ course.name }}</h5>
+          <p class="card-text">{{ course.description }}</p>
+          <a href="{% url 'onlinecourse:course_details' course.id %}" class="btn btn-primary">View course</a>
+        </div>
+      </div>
+    {% empty %}
+      <p>No courses available yet. Add one in the <a href="/admin/">admin site</a>.</p>
+    {% endfor %}
+  </div>
+</div>
+</body>
+</html>
